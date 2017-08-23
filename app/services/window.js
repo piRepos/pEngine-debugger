@@ -7,6 +7,11 @@ export default Ember.Service.extend(Ember.Evented,
 
 	handler: null,
 
+	settings:
+	{
+		open: false
+	},
+
 	init()
 	{
 		this._super(...arguments);
@@ -50,6 +55,11 @@ export default Ember.Service.extend(Ember.Evented,
 			this.trigger('maximizing');
 			window.maximize();
 		}
+	},
+
+	toggleSettings()
+	{
+		this.set("settings.open", !this.get("settings.open"));
 	}
 
 });

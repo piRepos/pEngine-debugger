@@ -30,6 +30,11 @@ export default Ember.Component.extend(
 			window.maximize();
 		},
 
+		settings: function () 
+		{
+			// body...
+		}
+
 	}
 
 });
