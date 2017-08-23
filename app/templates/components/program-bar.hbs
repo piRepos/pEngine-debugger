@@ -1,0 +1,25 @@
+{{#bs-navbar type="inverse" as |navbar|}}
+
+	<div class="navbar-header">
+		{{navbar.toggle}}
+		<a class="navbar-brand" href="#">pEngine</a>
+	</div>
+
+	<ul class="window-management">
+
+		<li onclick={{action 'minimize'}}>{{fa-icon "window-minimize" size=1}}</li>
+		<li onclick={{action 'maximize'}}>{{fa-icon "window-maximize" size=1}}</li>
+		<li onclick={{action 'close'}}>{{fa-icon "window-close" size=1}}</li>
+
+	</ul>
+
+
+	{{#navbar.content}}
+    	{{#navbar.nav as |nav|}}
+			{{#nav.item}}{{#nav.link-to "home"}}{{fa-icon "th-large" size=1}} <div>Home</div>{{/nav.link-to}}{{/nav.item}}
+			{{#nav.item}}{{#nav.link-to "running"}}{{fa-icon "gamepad" size=1}} <div>Running</div>{{/nav.link-to}}{{/nav.item}}
+			{{#nav.item}}{{#nav.link-to "rendering"}}{{fa-icon "picture-o" size=1}} <div>Rendering</div>{{/nav.link-to}}{{/nav.item}}
+		{{/navbar.nav}}
+	{{/navbar.content}}
+
+{{/bs-navbar}}

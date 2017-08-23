@@ -1,0 +1,105 @@
+.program-bar
+{
+
+	// - Window drag
+	-webkit-app-region: drag;
+
+	overflow: hidden;
+	max-height: @navbar-height;
+
+	.navbar-nav li a
+	{
+		// - Window drag
+		-webkit-app-region: no-drag;
+
+		// - Allignment
+		vertical-align: middle;
+		text-align: center;
+
+		min-height: @navbar-height;
+
+		// - Changing default padding
+		padding: 0px;
+		padding-left: 10px;
+		padding-right: 10px;
+
+		i
+		{
+			// - Default size
+			font-size: 25px;
+
+			// - Animation
+			margin-top: 10px;
+			transition: all 0.15s ease-out;
+		}
+
+		div
+		{
+			// - Default positioning
+			margin-top: -7px;
+			padding-bottom: 3px;
+
+			// - Animation
+			max-height: 0px;
+			overflow: hidden;
+			transition: all 0.15s ease-out;
+		}
+
+		&:hover div
+		{
+			max-height: 100px;
+			transition: all 0.15s ease-in;
+		}
+
+		&:hover i
+		{
+			font-size: 20px;
+			margin-top: 5px;
+			transition: all 0.15s ease-in;
+		}
+	}
+
+	.navbar-nav .active a
+	{
+		div { max-height: 100px; }
+		i { font-size: 20px; margin-top: 5px; }
+	}
+
+	.window-management
+	{
+		// - Positioning
+		float: right;
+		margin: 0px;
+		padding: 0px;
+		padding-top: 7px;
+
+		// - List
+		list-style: none;
+		list-style-type: none;
+
+		-webkit-app-region: no-drag;
+
+		li
+		{
+			// - Icon style
+			color: #FFF;
+			font-size: 18px;
+
+			// - Positioning
+			margin-left: 10px;
+			display: inline;
+
+			&:hover
+			{
+				color: rgb(255, 164, 230);
+				cursor: pointer;
+			}
+
+			&:active
+			{
+				color: rgb(213, 12, 193);
+				cursor: pointer;
+			}
+		}
+	}
+}

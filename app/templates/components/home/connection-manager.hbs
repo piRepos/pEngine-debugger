@@ -1,0 +1,13 @@
+
+<div class="status">
+	pEngine 
+	<b>
+		<font color="{{if connected "white" "#FF9EF5"}}">
+			{{if connected "connected" "disconnected"}}
+		</font>
+	</b> | data refresh rate: {{refreshRate}}s
+</div>
+
+<div class="actions">
+	{{#bs-button type="primary" size="xs" onClick=(action "connectToggle")}}{{if connected "Disconnect" "Connect"}}{{/bs-button}}
+</div>
