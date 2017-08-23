@@ -1,4 +1,6 @@
-# p-engine-debugger
+![pengine-recovered](https://user-images.githubusercontent.com/17594867/29499238-42d33b50-860d-11e7-8b44-984fa7b08a7a.png)
+
+# pEngine-debugger [![Build Status](https://travis-ci.org/piRepos/pEngine-debugger.svg?branch=master)](https://travis-ci.org/piRepos/pEngine-debugger)
 
 This README outlines the details of collaborating on this Ember application.
 A short introduction of this app could easily go here.
@@ -22,26 +24,17 @@ You will need the following things properly installed on your computer.
 
 ## Running / Development
 
-* `ember serve`
-* Visit your app at [http://localhost:4200](http://localhost:4200).
-
-### Code Generators
-
-Make use of the many generators for code, try `ember help generate` for more details
+* `ember electron`
 
 ### Running Tests
 
-* `ember test`
-* `ember test --server`
+* `ember electron:test`
+* `ember electron:test --server`
 
 ### Building
 
-* `ember build` (development)
-* `ember build --environment production` (production)
-
-### Deploying
-
-Specify what it takes to deploy your app.
+* `ember electron:deploy` (development)
+* `ember electron:deploy --environment production` (production)
 
 ## Further Reading / Useful Links
 
