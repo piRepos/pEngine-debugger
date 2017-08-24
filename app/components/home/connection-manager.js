@@ -18,9 +18,13 @@ export default Ember.Component.extend(
 			var connected = this.get("connected");
 
 			if (connected)
+			{
 				this.sendAction("disconnect");
+			}
 			else 
+			{
 				this.sendAction("connect");
+			}
 		}
 
 	}
