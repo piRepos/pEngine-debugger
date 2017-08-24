@@ -9,7 +9,16 @@ export default Ember.Service.extend(
 		engineVersion: "1.0.5"
 	},
 
+	// - Data update
 	refreshRate: 0.4,
+	canUpdate: true,
+
+	// - Socket
+	socketHandler: null,
+	endpointIp: "127.0.0.1",
+	endpointPort: 8855,
+
+	// - Status
 	connected: true,
 
 	init()

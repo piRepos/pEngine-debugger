@@ -32,7 +32,8 @@ export default Ember.Component.extend(
 
 		settings: function () 
 		{
-			// body...
+			var window = this.get("window");
+			window.toggleSettings();
 		}
 
 	}

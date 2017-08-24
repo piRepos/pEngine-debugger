@@ -1,13 +1,75 @@
-{{#bs-modal-simple
-  open=open
-  title="Settings"
-  closeTitle="Close"
-  submitTitle="Save"
-  size="lg"
-  closeButton=true
-  fade=true
-  backdrop=true
-  backdropClose=true
-  renderInPlace=true}}
-  Hi there
-{{/bs-modal-simple}}
+{{#bs-modal
+	open=window.settings.open
+	title="Settings"
+	size="lg"
+	onHide=(action "close")
+	as |modal|
+}}
+
+<div class="program-settings">
+
+	{{#modal.header}}
+		<div class="settings-header">
+			<h2 class="modal-title">
+				{{fa-icon "cogs" size=1}} 
+				Settings
+			</h2>
+		</div>
+	{{/modal.header}}
+
+	{{#modal.body}}
+
+			{{#bs-tab type="tabs" as |tab|}}
+				{{#tab.pane title="General"}}
+
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-md-2 first">
+								<h4>Engine settings</h4>
+								{{#bs-form formLayout="vertical" model=this as |form|}}
+									{{form.element controlType="checkbox" label="Close debugger on connection closing" property="closeEngine" }}
+									{{form.element controlType="checkbox" label="Disable audio" property="disableAudio" }}
+								{{/bs-form}}
+							</div>
+							<div class="col-md-2 second">
+								<h4>Data refresh</h4>
+								{{#bs-form formLayout="horizontal" model=this as |form|}}
+									{{form.element controlType="number" label="Data refresh rate" property="refreshRate" max=5.0 min=0.1 step=0.1 helpText="Minimum value 0.1 maximum value 5.0"}}
+								{{/bs-form}}
+							</div>
+						</div>
+					</div>
+					
+
+				{{/tab.pane}}
+				{{#tab.pane title="Connection"}}
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-md-2 first">
+								<h4>Socket endpoint</h4>
+								{{#bs-form formLayout="horizontal" model=this as |form|}}
+									{{form.element controlType="number" label="Port number" property="port" helpText="Default port is 8855"}}
+									{{form.element controlType="text" label="IP address" property="ip" helpText="Default IP is 127.0.0.1"}}
+								{{/bs-form}}
+							</div>
+							<div class="col-md-2 second">
+								<h4>Connection settings</h4>
+								{{#bs-form formLayout="vertical" model=this as |form|}}
+									{{form.element controlType="checkbox" label="Enables data batching" property="batching" }}
+								{{/bs-form}}
+							</div>
+						</div>
+					</div>
+
+				{{/tab.pane}}
+			{{/bs-tab}}
+
+	{{/modal.body}}
+
+	{{#modal.footer}}
+		{{#bs-button type="primary" onClick=(action "save")}}Save{{/bs-button}}
+	{{/modal.footer}}
+
+	</div>
+
+{{/bs-modal}}
