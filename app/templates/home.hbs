@@ -163,26 +163,28 @@
 			</div>
 			
 			{{
-				ember-chart 
-				type="line" 
-				options=model.graphicsChart.settings 
-				data=model.graphicsChart.data 
+				charts/timed-area
 				height=200
+				timeRange=20
+				color="#C28AD1"
+				currentTime=model.currentTime
+				data=model.graphicsChart
 			}}
 
-			<br><br>
+			<br>
 
 			<div class="title">
-				<h4>Graphics loop</h4>
+				<h4>Physics loop</h4>
 				<small>You can change the engine state in this section.</small>
 			</div>
 			
 			{{
-				ember-chart 
-				type="line" 
-				options=model.graphicsChart.settings 
-				data=model.graphicsChart.data 
+				charts/timed-area
 				height=200
+				timeRange=20
+				color="#8ACDD1"
+				currentTime=model.currentTime
+				data=model.physicsChart
 			}}
 
 

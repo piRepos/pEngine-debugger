@@ -6,27 +6,10 @@ const DataModel = Ember.Object.extend(
 
 	init()
 	{
-		var dataSets = [];
-		var labels = [];
-
-
-		for (var i = 0; i < 201; i++) 
-		{
-			labels.push((50 - (i / 2.0)) + "s");
-
-			var v1 = (Math.random() * 5) + 0;
-			var v2 = (Math.random() * 5) + 0;
-			var v3 = (Math.random() * 10) + 10;
-			var v4 = (Math.random() * 5) + 20;
-			var v5 = (Math.random() * 20) + 10;
-			var v6 = (Math.random() * 5) + 5;
-			var v7 = (Math.random() * 5) + 5;
-			var v8 = (Math.random() * 5) + 5;
-			var v9 = 100 -  (v1 + v2 + v3 + v4 + v5 + v6 + v7 + v8 + v9);
-
-		}
 
 	},
+
+	currentTime: 0,
 
 	engineState: Ember.computed('pEngine.connected',
 	{
@@ -165,126 +148,50 @@ const DataModel = Ember.Object.extend(
 		get() 
 		{
 			const pEngine = this.get('pEngine');
-			
-			
-			var labels = Array.apply(null, {length: pEngine.dataLenght}).map(Number.call, function (num)
+
+			var data = 
 			{
-				return Math.round(((pEngine.dataLenght - num) + 1) * pEngine.refreshRate * 100) / 100;
-			});
-
-			var color = pEngine.connected ? "#C28AD1" : "#555555";
-
-			function shadeColor(color, percent) 
-			{
-				var f=parseInt(color.slice(1),16),t=percent<0?0:255,p=percent<0?percent*-1:percent,R=f>>16,G=f>>8&0x00FF,B=f&0x0000FF;
-				return "#"+(0x1000000+(Math.round((t-R)*p)+R)*0x10000+(Math.round((t-G)*p)+G)*0x100+(Math.round((t-B)*p)+B)).toString(16).slice(1);
-			}
-
-			var that = this;
-
-			var struct =
-			{
-				data:
-				{
-					labels: labels,
-					datasets: 
-					[
-						{
-							fill: 'origin', 
-							label: ["Graphics - Textures"], 
-							backgroundColor: [color],
-							borderColor: ['rgba(0,0,0,0.3)'],
-							borderWidth: 1,
-							data: []
-						},
-
-						{
-							fill: 'origin', 
-							label: ["Graphics - Buffers"], 
-							backgroundColor: [shadeColor(color, 0.2)],
-							borderColor: ['rgba(0,0,0,0.3)'],
-							borderWidth: 1,
-							data: []
-						},
-
-						{
-							fill: 'origin', 
-							label: ["Graphics - Rendering"], 
-							backgroundColor: [shadeColor(color, 0.5)],
-							borderColor: ['rgba(0,0,0,0.3)'],
-							borderWidth: 1,
-							data: []
-						},
-
-						{
-							fill: 'origin', 
-							label: ["Graphics - Swap"], 
-							backgroundColor: [shadeColor(color, 0.7)],
-							borderColor: ['rgba(0,0,0,0.3)'],
-							borderWidth: 1,
-							data: []
-						}
-					]
-				},
-
-				settings:
-				{
-					animation:
-					{
-						duration: 0
-					},
-
-					legend:
-					{
-						display: false
-					},
-
-					layout: 
-					{
-						padding: 0
-					},
-
-					elements: 
-					{
-						point:
-						{
-							radius: 0
-						},
-						line: 
-						{
-							tension: 0,
-						}
-			        },
-
-					scales:
-					{
-						yAxes:
-						[
-							{
-								stacked: true,
-								display: false
-							}
-						],
-						xAxes:
-						[
-							{
-								display: false,
-							}
-						]
-					}
-				}
-			}
+				textures: [],
+				buffers: [],
+				rendering: [],
+				swap: []
+			};
 
 			// - Population
 			for (var i = 0; i < pEngine.dataLenght; i++) 
 			{
-				struct.data.datasets[0].data.pushObject(this.get("pEngine.data.graphicsThread.frames." + i + ".textures"));
-				struct.data.datasets[1].data.pushObject(this.get("pEngine.data.graphicsThread.frames." + i + ".buffers"));
-				struct.data.datasets[2].data.pushObject(this.get("pEngine.data.graphicsThread.frames." + i + ".rendering"));
-				struct.data.datasets[3].data.pushObject(this.get("pEngine.data.graphicsThread.frames." + i + ".swap"));
+				data.textures.pushObject(this.get("pEngine.data.graphicsThread.frames." + i + ".textures"));
+				data.buffers.pushObject(this.get("pEngine.data.graphicsThread.frames." + i + ".buffers"));
+				data.rendering.pushObject(this.get("pEngine.data.graphicsThread.frames." + i + ".rendering"));
+				data.swap.pushObject(this.get("pEngine.data.graphicsThread.frames." + i + ".swap"));
 			}
 
-			return struct;
+			return data;
+		}
+	}),
+
+	physicsChart: Ember.computed('pEngine.connected', 'pEngine.dataLenght', 'pEngine.refreshRate', 'pEngine.data.physicsThread.frames.@each',
+	{
+		get() 
+		{
+			const pEngine = this.get('pEngine');
+
+			var data = 
+			{
+				update: [],
+				assets: [],
+				dependencies: []
+			};
+
+			// - Population
+			for (var i = 0; i < pEngine.dataLenght; i++) 
+			{
+				data.update.pushObject(this.get("pEngine.data.physicsThread.frames." + i + ".update"));
+				data.assets.pushObject(this.get("pEngine.data.physicsThread.frames." + i + ".assets"));
+				data.dependencies.pushObject(this.get("pEngine.data.physicsThread.frames." + i + ".dependencies"));
+			}
+
+			return data;
 		}
 	}),
 

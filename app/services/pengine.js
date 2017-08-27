@@ -65,7 +65,24 @@ export default Ember.Service.extend(
 			});
 		}
 
+		var fframes = [];
+
+		for (var i = 0; i < 200; i++) 
+		{
+			var v1 = 30 + Math.random() * 15;
+			var v2 = 10 + Math.random() * 15;
+			var v3 = 100 - (v1 + v2);
+
+			fframes.push(
+			{
+				update: v1, 
+				assets: v2, 
+				dependencies: v3,
+			});
+		}
+
 		this.set("data.graphicsThread.frames", vframes);
+		this.set("data.physicsThread.frames", fframes);
 	},
 
 	disconnect()
