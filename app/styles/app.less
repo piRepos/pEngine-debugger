@@ -8,14 +8,22 @@
 @import "components/program-bar";
 @import "components/program-settings";
 @import "components/home/connection-manager";
+@import "components/home/state-button";
 
 // - Routes
 @import "routes/home";
 
 
-body
+html, body
 {
 	user-select: none;
+	height: 100%;
+	overflow-y: hidden;
+}
+
+body > .ember-view
+{
+	height: 100%;
 }
 
 // ---------------------------------------------
@@ -53,3 +61,5 @@ body
   background: rgba(0,0,0,0.61);
   -webkit-border-radius: 100px;
 }
+
+

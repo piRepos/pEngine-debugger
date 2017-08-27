@@ -6,11 +6,35 @@ export default Ember.Service.extend(
 	data:
 	{
 		runningGame: "WaveDash",
-		engineVersion: "1.0.5"
+		engineVersion: "1.0.5",
+
+		graphicsThread:
+		{
+			state: "running",
+
+			frames: 
+			[
+			]
+		},
+
+		physicsThread:
+		{
+			state: "paused",
+
+			frames: 
+			[
+			]
+		},
+
+		inputThread:
+		{
+			state: "running"
+		}
 	},
 
 	// - Data update
 	refreshRate: 0.4,
+	dataLenght: 200,
 	canUpdate: true,
 
 	// - Socket
@@ -23,7 +47,25 @@ export default Ember.Service.extend(
 
 	init()
 	{
+		var vframes = [];
 
+		for (var i = 0; i < 200; i++) 
+		{
+			var v1 = Math.random() * 15;
+			var v2 = Math.random() * 15;
+			var v3 = Math.random() * 15 + 20;
+			var v4 = 100 - (v1 + v2 + v3);
+
+			vframes.push(
+			{
+				textures: v1, 
+				buffers: v2, 
+				rendering: v3, 
+				swap: v4
+			});
+		}
+
+		this.set("data.graphicsThread.frames", vframes);
 	},
 
 	disconnect()
