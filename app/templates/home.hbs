@@ -52,95 +52,27 @@
 					</div>
 				</div>
 
-				<div class="stats">
-					<table class="table table-sm">
-						<thead>
-							<tr>
-								<th colspan="2">Informations</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<th scope="row">Game name</th>
-								<td>WaveDash</td>
-							</tr>
-							<tr>
-								<th scope="row">Engine version</th>
-								<td colspan="2">1.0.2</td>
-							</tr>
-							<tr>
-								<th scope="row">Runtime mode</th>
-								<td>Debug</td>
-							</tr>
-							<tr>
-								<th scope="row">Running threads</th>
-								<td>2</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
+				{{#each model.sideInformations as |table|}}
+					<div class="stats">
+						<table class="table table-sm">
+							<thead>
+								<tr>
+									<th colspan="2">{{table.title}}</th>
+								</tr>
+							</thead>
+							<tbody>
+								{{#each table.data as |row|}}
+									<tr>
+										<th scope="row">{{row.name}}</th>
+										<td>{{row.value}}</td>
+									</tr>
+								{{/each}}
+							</tbody>
+						</table>
+					</div>
+				{{/each}}
 
-				<div class="stats">
-					<table class="table table-sm">
-						<thead>
-							<tr>
-								<th colspan="2">System informations</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<th scope="row">Platform</th>
-								<td>Windows 10</td>
-							</tr>
-							<tr>
-								<th scope="row">Motherboard</th>
-								<td>Asus P8P67 M-PRO rev</td>
-							</tr>
-							<tr>
-								<th scope="row">CPU</th>
-								<td colspan="2">intel i7 2600k 4.1ghz</td>
-							</tr>
-							<tr>
-								<th scope="row">RAM</th>
-								<td>16gb 2600mhz</td>
-							</tr>
-							<tr>
-								<th scope="row">GPU</th>
-								<td>Nvidia GTX970 XFX</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-
-				<div class="stats">
-					<table class="table table-sm">
-						<thead>
-							<tr>
-								<th colspan="2">Video informations</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<th scope="row">Graphics card</th>
-								<td>Nvidia GTX970 XFX</td>
-							</tr>
-							<tr>
-								<th scope="row">Vendor</th>
-								<td>Nvidia</td>
-							</tr>
-							<tr>
-								<th scope="row">OpenGL version</th>
-								<td colspan="2">4.2 Core</td>
-							</tr>
-							<tr>
-								<th scope="row">Monitors</th>
-								<td>2</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
 			</div>
-
 
 		</div>
 

@@ -22,6 +22,30 @@ export default Ember.Service.extend(
 		{
 			runningGame: "WaveDash",
 			engineVersion: "1.0.5",
+			runningMode: "Debug",
+
+			system:
+			{
+				OS: "Windows 10",
+				motherBoard: "Asus P8P67 M-PRO rev",
+				CPU: "intel i7 2600k 4.1ghz",
+				RAM: "16gb 2600mhz",
+
+				videoCard:
+				{
+					name: "Nvidia GTX970 XFX",
+					vendor: "Nvidia",
+					openGLVersion: "4.2 Core",
+					monitors: 2
+				},
+
+				threads:
+				[
+					{ name: "GraphicsThread", PID: 12314 },
+					{ name: "InputThread", PID: 12314 },
+					{ name: "PhysicsThread", PID: 12314 }
+				]
+			},
 
 			graphicsThread:
 			{
@@ -34,7 +58,7 @@ export default Ember.Service.extend(
 
 			physicsThread:
 			{
-				state: "paused",
+				state: "running",
 
 				frames: 
 				[
@@ -43,7 +67,7 @@ export default Ember.Service.extend(
 
 			inputThread:
 			{
-				state: "running"
+				state: "paused"
 			}
 		};
 
