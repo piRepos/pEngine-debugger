@@ -1,32 +1,41 @@
 .home-page
 {
 
+	// - Positioning
 	padding: 0px;
 	margin: 0px;
 
+	// - Main box size
 	width: 100%;
 	height:  ~"calc(100% - 45px)";
 
 	.row
-	{ 
-		margin: 0px;
+	{
+		// - Box size adjust
 		height:  ~"calc(100% - 30px)";
+		margin: 0px;
 	}
 
 	.left-sidebar
 	{
+		// - Positioning
 		display: inline-block;
 		padding: 0px;
   		float: left;
+
+  		// - Size
 		width: 300px;
-		background: #EEE;
-		
 		height: 100%;
+
+		// - Sidebar background
+		background: #EEE;
 		
 		.left-sidebar-content
 		{
+			// - Sidebar scroll
 			height: 100%;
 			overflow-y: overlay;
+
 			&::-webkit-scrollbar 
 			{
 				width: 0px;
@@ -40,23 +49,28 @@
 
 		.command-section
 		{
-			background: #E5E5E5;
-
+			// - Positioning
 			padding: 15px;
 			margin: 0px;
 			margin-bottom: 15px;
 
+			// - Command section box color
+			background: #E5E5E5;
+
 			h5
 			{
+				// - Custom h5 positioning
 				margin-bottom: 0px;
 				margin-top: 5px;
 			}
 
 			.commands
 			{
+				// - Positioning
 				padding-top: 0px;
 				margin-top: 10px;
 
+				// - Commands separator
 				& > div:not(:last-child)
 				{
 					border-bottom: 1px solid #CCC;
@@ -66,6 +80,7 @@
 
 		.stats
 		{
+			// - Positioning
 			padding-left: 15px;
 			padding-right: 15px;
 
@@ -78,16 +93,19 @@
 
 	.content
 	{
+		// - Fixed size
 		width: ~"calc(100% - 300px)";
 		height: ~"calc(100%)";
+
+		// - Positioning
 		display: inline-block;
 		padding: 0px;
 		padding-top: 20px;
-
 		overflow: overlay;
 
 		.title
 		{
+			// - Positioning
 			margin-left: 20px;
 			margin-bottom: 10px;
 

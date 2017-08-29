@@ -10,10 +10,13 @@
 
 	<div class="row">
 
+		{{! ----------------------------------------------------------------------- }}
+		{{! 							Home sidebar section 						}}
+		{{! ----------------------------------------------------------------------- }}
 		<div class="col-sm-4 left-sidebar">
-
 			<div class="left-sidebar-content">
 
+				{{! Engine commands }}
 				<div class="command-section">
 					<h5>Commands</h5>
 					<small>You can change the engine state in this section.</small>
@@ -52,6 +55,7 @@
 					</div>
 				</div>
 
+				{{! Engine general informations }}
 				{{#each model.sideInformations as |table|}}
 					<div class="stats">
 						<table class="table table-sm">
@@ -76,8 +80,12 @@
 
 		</div>
 
+		{{! ----------------------------------------------------------------------- }}
+		{{! 								Home content							}}
+		{{! ----------------------------------------------------------------------- }}
 		<div class="col-sm-4 content">
 
+			{{! Graphics time chart }}
 			<div class="title">
 				<h4>Graphics loop</h4>
 				<small>You can change the engine state in this section.</small>
@@ -94,6 +102,7 @@
 
 			<br>
 
+			{{! Physics time chart }}
 			<div class="title">
 				<h4>Physics loop</h4>
 				<small>You can change the engine state in this section.</small>
@@ -107,7 +116,6 @@
 				currentTime=model.currentTime
 				data=model.physicsChart.data
 			}}
-
 
 		</div>
 

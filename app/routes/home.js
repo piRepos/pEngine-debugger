@@ -79,8 +79,6 @@ const DataModel = Ember.Object.extend(
 			}
 		];
 
-		console.log(data);
-
 		return data;
 	}),
 
