@@ -22,42 +22,31 @@
 
 						{{
 							home/state-button 
-							currentState=model.engineState.state
-							disabled=model.engineState.disabled
-							buttonText=model.engineState.buttonText
-							stateColor=model.engineState.color
-							textColor=model.engineState.textColor
+							currentState=(if model.pEngine.connected "running" "stopped")
+							statesColor=model.statesColorEngine
+							text="pEngine is"
 							onClick="closeEngine"
 						}}
 
 						{{
 							home/state-button 
-							currentState=model.inputLoopState.state
-							disabled=model.inputLoopState.disabled
-							buttonText=model.inputLoopState.buttonText
-							stateColor=model.inputLoopState.color
-							textColor=model.inputLoopState.textColor
-							onClick="pauseInput"
+							currentState=(if model.pEngine.connected model.pEngine.rawData.graphicsThread.state "stopped")
+							text="Graphics loop"
+							onClick="pauseGraphics"
 						}}
 
 						{{
 							home/state-button 
-							currentState=model.physicsLoopState.state
-							disabled=model.physicsLoopState.disabled
-							buttonText=model.physicsLoopState.buttonText
-							stateColor=model.physicsLoopState.color
-							textColor=model.physicsLoopState.textColor
+							currentState=(if model.pEngine.connected model.pEngine.rawData.physicsThread.state "stopped")
+							text="Physics loop"
 							onClick="pausePhysics"
 						}}
 
 						{{
 							home/state-button 
-							currentState=model.graphicsLoopState.state
-							disabled=model.graphicsLoopState.disabled
-							buttonText=model.graphicsLoopState.buttonText 
-							stateColor=model.graphicsLoopState.color
-							textColor=model.graphicsLoopState.textColor
-							onClick="pauseGraphics"
+							currentState=(if model.pEngine.connected model.pEngine.rawData.inputThread.state "stopped")
+							text="Input loop"
+							onClick="pauseInput"
 						}}
 
 					</div>
@@ -166,9 +155,9 @@
 				charts/timed-area
 				height=200
 				timeRange=20
-				color="#C28AD1"
+				color=model.graphicsChart.color
 				currentTime=model.currentTime
-				data=model.graphicsChart
+				data=model.graphicsChart.data
 			}}
 
 			<br>
@@ -182,9 +171,9 @@
 				charts/timed-area
 				height=200
 				timeRange=20
-				color="#8ACDD1"
+				color=model.physicsChart.color
 				currentTime=model.currentTime
-				data=model.physicsChart
+				data=model.physicsChart.data
 			}}
 
 

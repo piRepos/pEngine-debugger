@@ -3,35 +3,6 @@ import Ember from 'ember';
 export default Ember.Service.extend(
 {
 
-	data:
-	{
-		runningGame: "WaveDash",
-		engineVersion: "1.0.5",
-
-		graphicsThread:
-		{
-			state: "running",
-
-			frames: 
-			[
-			]
-		},
-
-		physicsThread:
-		{
-			state: "paused",
-
-			frames: 
-			[
-			]
-		},
-
-		inputThread:
-		{
-			state: "running"
-		}
-	},
-
 	// - Data update
 	refreshRate: 0.4,
 	dataLenght: 200,
@@ -47,7 +18,34 @@ export default Ember.Service.extend(
 
 	init()
 	{
-		var vframes = [];
+		var data = 
+		{
+			runningGame: "WaveDash",
+			engineVersion: "1.0.5",
+
+			graphicsThread:
+			{
+				state: "running",
+
+				frames: 
+				[
+				]
+			},
+
+			physicsThread:
+			{
+				state: "paused",
+
+				frames: 
+				[
+				]
+			},
+
+			inputThread:
+			{
+				state: "running"
+			}
+		};
 
 		for (var i = 0; i < 200; i++) 
 		{
@@ -56,7 +54,7 @@ export default Ember.Service.extend(
 			var v3 = Math.random() * 15 + 20;
 			var v4 = 100 - (v1 + v2 + v3);
 
-			vframes.push(
+			data.graphicsThread.frames.push(
 			{
 				textures: v1, 
 				buffers: v2, 
@@ -65,15 +63,13 @@ export default Ember.Service.extend(
 			});
 		}
 
-		var fframes = [];
-
 		for (var i = 0; i < 200; i++) 
 		{
 			var v1 = 30 + Math.random() * 15;
 			var v2 = 10 + Math.random() * 15;
 			var v3 = 100 - (v1 + v2);
 
-			fframes.push(
+			data.physicsThread.frames.push(
 			{
 				update: v1, 
 				assets: v2, 
@@ -81,8 +77,7 @@ export default Ember.Service.extend(
 			});
 		}
 
-		this.set("data.graphicsThread.frames", vframes);
-		this.set("data.physicsThread.frames", fframes);
+		this.set("rawData", data);
 	},
 
 	disconnect()

@@ -1,3 +1,3 @@
 <div class="state-light" style=" color: {{stateColor}};">{{fa-icon "circle" size=1}}</div>
-<span class="state-name" style="color: {{textColor}};">{{currentState}}</span>
+<span class="state-name" style="color: {{textColor}};">{{text}} {{currentState}}</span>
 {{#bs-button icon="fa {{buttonIcon}}" disabled=disabled onClick=(action "click") }}{{buttonText}}{{/bs-button}}
