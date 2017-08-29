@@ -8,7 +8,6 @@ function shadeColor(color, percent)
 
 export default Ember.Component.extend(
 {
-
 	/**
 	 * Chart data binding
 	 * @type {struct}
@@ -19,15 +18,13 @@ export default Ember.Component.extend(
 	 * Current selected time in seconds
 	 * @type {double}
 	 */
-
+	currentTime: 0,
 
 	/**
 	 * Time range displayed on the chart in seconds
 	 * @type {double}
 	 */
-	timeRange: 5,
-
-	currentTime: 0,
+	timeRange: 20,
 
 	/**
 	 * Chart data color
@@ -35,117 +32,173 @@ export default Ember.Component.extend(
 	 */
 	color: "#44444",
 
-	height: 200,
+	/**
+	 * Chartjs handler
+	 * @type {object}
+	 */
+	handler: null,
 
-	chart : null,
+	/**
+	 * Chart options.
+	 * @type {struct}
+	 */
+	options: null,
 
-	options: {
-				responsive: true,
-				maintainAspectRatio: false,
-
-				// - Set animation properties
-				animation:
-				{
-					duration: 0
-				},
-
-				// - Timeline settings
-				timeLine: 
-				{
-					enabled: true,
-					currentTime: 0,
-					timeRange: 20,
-					color: "rgba(0,0,0,0.3)"
-				},
-
-				legend:
-				{
-					display: false
-				},
-
-				tooltips:
-				{
-					enabled: true,
-					intersect: false,
-					mode: "index",
-					position: "side",
-					displayColors: false,
-					caretSize: 0,
-					filter: function(item) 
-					{
-						item.yLabel = Math.round(item.yLabel * 100) / 100
-						item.xLabel = "Time: " + item.xLabel;
-						return item;
-					}
-				},
-
-				layout: 
-				{
-					padding: 0
-				},
-
-				elements: 
-				{
-					point:
-					{
-						backgroundColor: 'rgba(0,0,0,0)',
-						borderColor: 'rgba(0,0,0,0)',
-						radius: 0
-					},
-					line: 
-					{
-						tension: 0,
-					}
-				},
-
-				scales:
-				{
-					yAxes:
-					[
-						{
-							stacked: true,
-							display: false
-						}
-					],
-					xAxes:
-					[
-						{
-							display: false,
-						}
-					]
-				}
-			},
-
+	/**
+	 * Control initializer
+	 */
 	init()
 	{
 		this._super(...arguments);
 
 		var that = this;
+		
+		this.set("options", 
+		{
+			responsive: true,
+			maintainAspectRatio: false,
 
-		this.set("options.timeLine.onTimeChange", function (chart, time) 
+			animation:
+			{
+				duration: 0
+			},
+
+			timeLine: 
+			{
+				enabled: true,
+				currentTime: 0,
+				timeRange: 20,
+				color: "rgba(0,0,0,0.4)",
+				onTimeChange: function (chart, time)
+				{
+					that.set("currentTime", time);
+				}
+			},
+
+			legend:
+			{
+				display: false
+			},
+
+			tooltips:
+			{
+				enabled: true,
+				intersect: false,
+				mode: "index",
+				position: "side",
+				displayColors: false,
+				caretSize: 0,
+				filter: function(item) 
+				{
+					item.yLabel = Math.round(item.yLabel * 100) / 100
+					item.xLabel = "Time: " + item.xLabel;
+					return item;
+				}
+			},
+
+			layout: 
+			{
+				padding: 0
+			},
+
+			elements: 
+			{
+				point:
+				{
+					backgroundColor: 'rgba(0,0,0,0)',
+					borderColor: 'rgba(0,0,0,0)',
+					radius: 0
+				},
+				line: 
+				{
+					tension: 0,
+				}
+			},
+
+			scales:
+			{
+				yAxes:
+				[
 					{
-						that.set("currentTime", time);
-						that.set("chart", chart);
-					});
+						stacked: true,
+						display: false
+					}
+				],
+				xAxes:
+				[
+					{
+						display: false,
+					}
+				]
+			}
+		});
 	},
 
-	currentTimeChanged: Ember.observer('currentTime', function ()
+	didInsertElement()
 	{
-		this.set("options.timeLine.currentTime", this.get("currentTime"));
-		var c = this.get("chart");
-			//if (c != null)
-			//	{c.draw();
-			//}
+		this._super(...arguments);
+
+		var that = this;
+
+
+		var ctx = this.get("element").children;
+		var chart = new Chart(ctx, {type: "line", data: this.get("chartData"), options: this.get("options")});
+
+		this.set("handler", chart);
+	},
+
+	willDestroyElement()
+	{
+		var chart = this.get("handler");
+		chart.destroy();
+	},
+
+	willUpdate()
+	{
+		var chart = this.get("handler");
+		chart.draw();
+	},
+
+	didReceiveAttrs()
+	{
+		this._super(...arguments);
+		this.updateProperties();
+	},
+
+	didUpdateAttrs()
+	{
+		this._super(...arguments);
+		this.updateProperties();
+	},
+
+	updateProperties()
+	{
+		var options = this.get("options");
+
+		options.timeLine.color = shadeColor(this.get("color"), -0.2);
+		options.timeLine.currentTime = this.get("currentTime");
+
+		this.set("options", options);
+
+		var chart = this.get("handler");
+
+
+		if (chart != null)
+		{
+			Object.assign(options, chart.options);
+			chart.draw(0);
+		}
+
+	},
+
+	dataTrigger: Ember.observer('data', 'color', 'timeRange', function () 
+	{
+		var chart = this.get("handler");
+		chart.data = this.get("chartData");
+		chart.update();
 	}),
 
-
-	timeChanged: Ember.observer('timeRange', function() 
-	{
-		// deal with the change
-		this.set("options.timeLine.timeRange", this.get('timeRange'));
-	}),
-
-	chartData: Ember.computed('data', 'color', 'timeRange',
+	chartData: Ember.computed('data', 'color', 'timeRange', 
 	{
 		get()
 		{
