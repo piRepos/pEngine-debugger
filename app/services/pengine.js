@@ -5,6 +5,7 @@ export default Ember.Service.extend(
 
 	// - Data update
 	refreshRate: 0.4,
+	cacheSize: 20,
 	dataLenght: 200,
 	canUpdate: true,
 

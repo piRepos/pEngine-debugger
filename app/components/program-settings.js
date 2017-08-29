@@ -10,6 +10,7 @@ export default Ember.Component.extend(
 
 	// - General settings
 	refreshRate: 0,
+	cacheSize: 20,
 	closeEngine: false,
 	disableAudio: false,
 	
@@ -27,7 +28,8 @@ export default Ember.Component.extend(
 		{
 			refreshRate: pEngine.refreshRate,
 			ip: pEngine.endpointIp,
-			port: pEngine.endpointPort
+			port: pEngine.endpointPort,
+			cacheSize: pEngine.cacheSize
 		});
 
     }),
@@ -42,6 +44,7 @@ export default Ember.Component.extend(
 			this.setProperties(
 			{
 				"pEngine.refreshRate": this.get("refreshRate"),
+				"pEngine.cacheSize": this.get("cacheSize"),
 				"pEngine.endpointIp": this.get("ip"),
 				"pEngine.endpointPort": this.get("port")
 			});
