@@ -117,6 +117,26 @@
 				data=model.physicsChart.data
 			}}
 
+			<br>
+
+			{{! Input time chart }}
+			<div class="title">
+				<h4>Input loop</h4>
+				<small>You can change the engine state in this section.</small>
+			</div>
+			
+			{{
+				charts/timed-area
+				height=200
+				timeRange=20
+				color=model.inputChart.color
+				currentTime=model.currentTime
+				data=model.inputChart.data
+			}}
+
+			<br>
+			<br>
+
 		</div>
 
 	</div>

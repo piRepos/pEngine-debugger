@@ -118,6 +118,25 @@ const DataModel = Ember.Object.extend(
 
 			return { data: this.dataToSeriesConverter(rawData), color: color };
 		}
+	}),
+
+	inputChart: Ember.computed('pEngine.connected', 'pEngine.rawData.inputThread.state', 'pEngine.rawData.inputThread.frames',
+	{
+		get() 
+		{
+			const rawData = this.get('pEngine.rawData.inputThread.frames');
+			var state = this.get("pEngine.connected") ? this.get("pEngine.rawData.inputThread.state") : "stopped";
+			var color = "";
+
+			switch (state)
+			{
+				case "running": color = "#5CC970"; break;
+				case "paused": color = "#C4562B"; break;
+				case "stopped": color = "#444444"; break;
+			}
+
+			return { data: this.dataToSeriesConverter(rawData), color: color };
+		}
 	})
 
 });

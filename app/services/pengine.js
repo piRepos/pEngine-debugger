@@ -51,23 +51,21 @@ export default Ember.Service.extend(
 			{
 				state: "running",
 
-				frames: 
-				[
-				]
+				frames: []
 			},
 
 			physicsThread:
 			{
 				state: "running",
 
-				frames: 
-				[
-				]
+				frames: []
 			},
 
 			inputThread:
 			{
-				state: "paused"
+				state: "running",
+
+				frames: []
 			}
 		};
 
@@ -98,6 +96,18 @@ export default Ember.Service.extend(
 				update: v1, 
 				assets: v2, 
 				dependencies: v3,
+			});
+		}
+
+		for (var i = 0; i < 200; i++) 
+		{
+			var v1 = 30 + Math.random() * 25;
+			var v2 = 100 - (v1);
+
+			data.inputThread.frames.push(
+			{
+				messages: v1, 
+				processing: v2,
 			});
 		}
 
