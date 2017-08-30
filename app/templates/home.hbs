@@ -96,9 +96,9 @@
 				height=200
 				timeRange=model.pEngine.cacheSize
 				frequency=model.pEngine.refreshRate
-				color=model.graphicsChart.color
+				color=(home/state-color-converter "#C28AD1" model.pEngine.connected model.pEngine.rawData.graphicsThread.state)
 				currentTime=model.currentTime
-				data=model.graphicsChart.data
+				data=(home/thread-chart-converter model.pEngine.rawData.graphicsThread.frames)
 			}}
 
 			<br>
@@ -114,9 +114,9 @@
 				height=200
 				timeRange=model.pEngine.cacheSize
 				frequency=model.pEngine.refreshRate
-				color=model.physicsChart.color
+				color=(home/state-color-converter "#8ACDD1" model.pEngine.connected model.pEngine.rawData.physicsThread.state)
 				currentTime=model.currentTime
-				data=model.physicsChart.data
+				data=(home/thread-chart-converter model.pEngine.rawData.physicsThread.frames)
 			}}
 
 			<br>
@@ -132,9 +132,9 @@
 				height=200
 				timeRange=model.pEngine.cacheSize
 				frequency=model.pEngine.refreshRate
-				color=model.inputChart.color
+				color=(home/state-color-converter "#5CC970" model.pEngine.connected model.pEngine.rawData.inputThread.state)
 				currentTime=model.currentTime
-				data=model.inputChart.data
+				data=(home/thread-chart-converter model.pEngine.rawData.inputThread.frames)
 			}}
 
 			<br>
