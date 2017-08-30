@@ -26,6 +26,9 @@ export default Ember.Component.extend(
 	 */
 	timeRange: 20,
 
+
+	frequency: 0.1,
+
 	/**
 	 * Chart data color
 	 * @type {string}
@@ -67,7 +70,7 @@ export default Ember.Component.extend(
 			{
 				enabled: true,
 				currentTime: 0,
-				timeRange: 20,
+				timeRange: that.get("timeRange"),
 				color: "rgba(0,0,0,0.4)",
 				onTimeChange: function (chart, time)
 				{
@@ -203,15 +206,17 @@ export default Ember.Component.extend(
 		get()
 		{
 			var data = this.get("data");
+			var timeRange = this.get("timeRange");
+			var frequency = this.get("frequency");
 			var dataFieldCount = Object.keys(data).length
 			var currFieldIndex = 0;
 
 			var datasets = [];
 
-			var dataLenght =  this.get("timeRange") * 10;
+			var dataLenght =  timeRange / frequency;
 			var labels = Array.apply(null, {length: dataLenght}).map(Number.call, function (num)
 			{
-				return Math.round((((dataLenght - num) + 1) / 10) * 100) / 100 + "s";
+				return Math.round((((dataLenght - num) + 1) * frequency) * 100) / 100 + "s";
 			});
 
 			for (var field in data) 

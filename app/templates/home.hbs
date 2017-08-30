@@ -94,7 +94,8 @@
 			{{
 				charts/timed-area
 				height=200
-				timeRange=20
+				timeRange=model.pEngine.cacheSize
+				frequency=model.pEngine.refreshRate
 				color=model.graphicsChart.color
 				currentTime=model.currentTime
 				data=model.graphicsChart.data
@@ -111,7 +112,8 @@
 			{{
 				charts/timed-area
 				height=200
-				timeRange=20
+				timeRange=model.pEngine.cacheSize
+				frequency=model.pEngine.refreshRate
 				color=model.physicsChart.color
 				currentTime=model.currentTime
 				data=model.physicsChart.data
@@ -128,7 +130,8 @@
 			{{
 				charts/timed-area
 				height=200
-				timeRange=20
+				timeRange=model.pEngine.cacheSize
+				frequency=model.pEngine.refreshRate
 				color=model.inputChart.color
 				currentTime=model.currentTime
 				data=model.inputChart.data

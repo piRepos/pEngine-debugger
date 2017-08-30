@@ -19,6 +19,9 @@ const DataModel = Ember.Object.extend(
 
 	dataToSeriesConverter(rawData)
 	{
+		if (rawData.length <= 0)
+			return [];
+
 		var fieldsCount = Object.keys(rawData[0]).length;
 
 		var data = {};
@@ -82,7 +85,7 @@ const DataModel = Ember.Object.extend(
 		return data;
 	}),
 
-	graphicsChart: Ember.computed('pEngine.connected', 'pEngine.rawData.graphicsThread.state', 'pEngine.rawData.graphicsThread.frames',
+	graphicsChart: Ember.computed('pEngine.connected', 'pEngine.rawData.graphicsThread.state', 'pEngine.rawData.graphicsThread.frames.[]',
 	{
 		get() 
 		{
@@ -101,7 +104,7 @@ const DataModel = Ember.Object.extend(
 		}
 	}),
 
-	physicsChart: Ember.computed('pEngine.connected', 'pEngine.rawData.physicsThread.state', 'pEngine.rawData.physicsThread.frames',
+	physicsChart: Ember.computed('pEngine.connected', 'pEngine.rawData.physicsThread.state', 'pEngine.rawData.physicsThread.frames.[]',
 	{
 		get() 
 		{
@@ -120,7 +123,7 @@ const DataModel = Ember.Object.extend(
 		}
 	}),
 
-	inputChart: Ember.computed('pEngine.connected', 'pEngine.rawData.inputThread.state', 'pEngine.rawData.inputThread.frames',
+	inputChart: Ember.computed('pEngine.connected', 'pEngine.rawData.inputThread.state', 'pEngine.rawData.inputThread.frames.[]',
 	{
 		get() 
 		{

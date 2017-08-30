@@ -4,9 +4,12 @@ export default Ember.Service.extend(
 {
 
 	// - Data update
-	refreshRate: 0.4,
+	refreshRate: 0.1,
 	cacheSize: 20,
-	dataLenght: 200,
+	dataLenght: Ember.computed("refreshRate", "cacheSize", function()
+	{
+		return this.get("cacheSize") / this.get("refreshRate");
+	}),
 	canUpdate: true,
 
 	// - Socket
@@ -17,10 +20,8 @@ export default Ember.Service.extend(
 	// - Status
 	connected: true,
 
-	init()
+	rawData:
 	{
-		var data = 
-		{
 			runningGame: "WaveDash",
 			engineVersion: "1.0.5",
 			runningMode: "Debug",
@@ -68,47 +69,110 @@ export default Ember.Service.extend(
 
 				frames: []
 			}
-		};
+		},
 
-		for (var i = 0; i < 200; i++) 
+
+	init()
+	{
+		var that = this;
+
+		this.resetData();
+
+		function updater() 
 		{
+			var data = that.get("rawData");
+			var dataLength = that.get("dataLenght");
+
 			var v1 = Math.random() * 15;
 			var v2 = Math.random() * 15;
 			var v3 = Math.random() * 15 + 20;
 			var v4 = 100 - (v1 + v2 + v3);
 
-			data.graphicsThread.frames.push(
+			data.graphicsThread.frames.pushObject(
 			{
 				textures: v1, 
 				buffers: v2, 
 				rendering: v3, 
 				swap: v4
 			});
-		}
 
-		for (var i = 0; i < 200; i++) 
-		{
 			var v1 = 30 + Math.random() * 15;
 			var v2 = 10 + Math.random() * 15;
 			var v3 = 100 - (v1 + v2);
 
-			data.physicsThread.frames.push(
+			data.physicsThread.frames.pushObject(
 			{
 				update: v1, 
 				assets: v2, 
 				dependencies: v3,
 			});
+
+			var v1 = 30 + Math.random() * 25;
+			var v2 = 100 - (v1);
+
+			data.inputThread.frames.pushObject(
+			{
+				messages: v1, 
+				processing: v2,
+			});
+
+			that.set("rawData", data);
+
+			that.set("rawData.graphicsThread.frames", data.graphicsThread.frames.slice(Math.max(0, data.graphicsThread.frames.length - dataLength)));
+			that.set("rawData.physicsThread.frames", data.physicsThread.frames.slice(Math.max(0, data.physicsThread.frames.length - dataLength)));
+			that.set("rawData.inputThread.frames", data.inputThread.frames.slice(Math.max(0, data.inputThread.frames.length - dataLength)));
+
+			setTimeout(updater, that.get("refreshRate") * 1000);
+
 		}
 
-		for (var i = 0; i < 200; i++) 
+		updater();
+	},
+
+	resetData()
+	{
+		var data = this.get("rawData");
+		var dataLenght = this.get("dataLenght");
+
+		for (var i = 0; i < dataLenght; i++) 
+		{
+			var v1 = Math.random() * 15;
+			var v2 = Math.random() * 15;
+			var v3 = Math.random() * 15 + 20;
+			var v4 = 100 - (v1 + v2 + v3);
+
+			data.graphicsThread.frames.pushObject(
+			{
+				textures: 1, 
+				buffers: 1, 
+				rendering: 1, 
+				swap: 1
+			});
+		}
+
+		for (var i = 0; i < dataLenght; i++) 
+		{
+			var v1 = 30 + Math.random() * 15;
+			var v2 = 10 + Math.random() * 15;
+			var v3 = 100 - (v1 + v2);
+
+			data.physicsThread.frames.pushObject(
+			{
+				update: 1, 
+				assets: 1, 
+				dependencies: 1,
+			});
+		}
+
+		for (var i = 0; i < dataLenght; i++) 
 		{
 			var v1 = 30 + Math.random() * 25;
 			var v2 = 100 - (v1);
 
-			data.inputThread.frames.push(
+			data.inputThread.frames.pushObject(
 			{
-				messages: v1, 
-				processing: v2,
+				messages: 1, 
+				processing: 1,
 			});
 		}
 
@@ -123,6 +187,11 @@ export default Ember.Service.extend(
 	connect()
 	{
 		this.set("connected", true);
-	}
+	},
+
+	dataStoreParametersChange: Ember.observer('refreshRate', 'cacheSize', function () 
+	{
+		this.resetData();
+	})
 
 });
