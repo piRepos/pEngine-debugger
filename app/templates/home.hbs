@@ -33,21 +33,21 @@
 
 						{{
 							home/state-button 
-							currentState=(if model.pEngine.connected model.pEngine.rawData.graphicsThread.state "stopped")
+							currentState=(if model.pEngine.connected model.graphicsThread.state "stopped")
 							text="Graphics loop"
 							onClick="pauseGraphics"
 						}}
 
 						{{
 							home/state-button 
-							currentState=(if model.pEngine.connected model.pEngine.rawData.physicsThread.state "stopped")
+							currentState=(if model.pEngine.connected model.physicsThread.state "stopped")
 							text="Physics loop"
 							onClick="pausePhysics"
 						}}
 
 						{{
 							home/state-button 
-							currentState=(if model.pEngine.connected model.pEngine.rawData.inputThread.state "stopped")
+							currentState=(if model.pEngine.connected model.inputThread.state "stopped")
 							text="Input loop"
 							onClick="pauseInput"
 						}}
@@ -96,9 +96,9 @@
 				height=200
 				timeRange=model.pEngine.cacheSize
 				frequency=model.pEngine.refreshRate
-				color=(home/state-color-converter "#C28AD1" model.pEngine.connected model.pEngine.rawData.graphicsThread.state)
+				color=(home/state-color-converter "#C28AD1" model.pEngine.connected model.graphicsThread.state)
 				currentTime=model.currentTime
-				data=(home/thread-chart-converter model.pEngine.rawData.graphicsThread.frames)
+				data=(home/thread-chart-converter model.graphicsThread.frames)
 			}}
 
 			<br>
@@ -114,9 +114,9 @@
 				height=200
 				timeRange=model.pEngine.cacheSize
 				frequency=model.pEngine.refreshRate
-				color=(home/state-color-converter "#8ACDD1" model.pEngine.connected model.pEngine.rawData.physicsThread.state)
+				color=(home/state-color-converter "#8ACDD1" model.pEngine.connected model.physicsThread.state)
 				currentTime=model.currentTime
-				data=(home/thread-chart-converter model.pEngine.rawData.physicsThread.frames)
+				data=(home/thread-chart-converter model.physicsThread.frames)
 			}}
 
 			<br>
@@ -132,9 +132,9 @@
 				height=200
 				timeRange=model.pEngine.cacheSize
 				frequency=model.pEngine.refreshRate
-				color=(home/state-color-converter "#5CC970" model.pEngine.connected model.pEngine.rawData.inputThread.state)
+				color=(home/state-color-converter "#5CC970" model.pEngine.connected model.inputThread.state)
 				currentTime=model.currentTime
-				data=(home/thread-chart-converter model.pEngine.rawData.inputThread.frames)
+				data=(home/thread-chart-converter model.inputThread.frames)
 			}}
 
 			<br>

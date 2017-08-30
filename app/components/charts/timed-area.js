@@ -229,7 +229,7 @@ export default Ember.Component.extend(
 					{
 						fill: 'origin', 
 						label: [field], 
-						backgroundColor: [setColor],
+						backgroundColor: [Ember.String.htmlSafe(setColor)],
 						borderColor: ['rgba(0,0,0,0.3)'],
 						borderWidth: 1,
 						data: data[field]

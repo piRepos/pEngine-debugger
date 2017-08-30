@@ -70,12 +70,20 @@ export default Ember.Component.extend(
 		if (state === undefined)
 			return "#000000";
 
-		return state.color;
+		return Ember.String.htmlSafe("color: " + state.color);
 	}),
 
 	textColor: Ember.computed('stateColor', function () 
 	{
-		return shadeColor(this.get("stateColor"), -0.2);
+		var colors = this.get("statesColor");
+		var currentState = this.get("currentState");
+
+		var state = colors.find((x) => x.state === currentState);
+
+		if (state === undefined)
+			return "#000000";
+
+		return Ember.String.htmlSafe("color: " + shadeColor(state.color, -0.2));
 	}),
 
 	disabled: Ember.computed('statesColor', 'currentState', function () 

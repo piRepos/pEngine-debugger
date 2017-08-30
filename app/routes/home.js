@@ -4,6 +4,10 @@ const DataModel = Ember.Object.extend(
 {
 	pEngine: null,
 
+	physicsThread: Ember.computed.alias("pEngine.rawData.physicsThread"),
+	graphicsThread: Ember.computed.alias("pEngine.rawData.graphicsThread"),
+	inputThread: Ember.computed.alias("pEngine.rawData.inputThread"),
+
 	init()
 	{
 
@@ -16,32 +20,6 @@ const DataModel = Ember.Object.extend(
 		{ state: 'running', color: '#4CE0D2', buttonText: "Close", buttonIcon: "", disabled: false },
 		{ state: 'stopped', color: '#777777', buttonText: "Resume", buttonIcon: "", disabled: true }
 	],
-
-	dataToSeriesConverter(rawData)
-	{
-		if (rawData.length <= 0)
-			return [];
-
-		var fieldsCount = Object.keys(rawData[0]).length;
-
-		var data = {};
-
-		for (var i = 0; i < rawData.length; i++)
-		{
-			for (var field in rawData[i]) 
-			{
-				if (rawData[i].hasOwnProperty(field)) 
-				{
-					if (data[field] === undefined)
-						data[field] = [];
-
-					data[field].push(rawData[i][field]);
-				}
-			}
-		}
-
-		return data;
-	},
 
 	sideInformations: Ember.computed('pEngine.rawData.{}', function () 
 	{
@@ -83,63 +61,6 @@ const DataModel = Ember.Object.extend(
 		];
 
 		return data;
-	}),
-
-	graphicsChart: Ember.computed('pEngine.connected', 'pEngine.rawData.graphicsThread.state', 'pEngine.rawData.graphicsThread.frames.[]',
-	{
-		get() 
-		{
-			const rawData = this.get('pEngine.rawData.graphicsThread.frames');
-			var state = this.get("pEngine.connected") ? this.get("pEngine.rawData.graphicsThread.state") : "stopped";
-			var color = "";
-
-			switch (state)
-			{
-				case "running": color = "#C28AD1"; break;
-				case "paused": color = "#C4562B"; break;
-				case "stopped": color = "#444444"; break;
-			}
-
-			return { data: this.dataToSeriesConverter(rawData), color: color };
-		}
-	}),
-
-	physicsChart: Ember.computed('pEngine.connected', 'pEngine.rawData.physicsThread.state', 'pEngine.rawData.physicsThread.frames.[]',
-	{
-		get() 
-		{
-			const rawData = this.get('pEngine.rawData.physicsThread.frames');
-			var state = this.get("pEngine.connected") ? this.get("pEngine.rawData.physicsThread.state") : "stopped";
-			var color = "";
-
-			switch (state)
-			{
-				case "running": color = "#8ACDD1"; break;
-				case "paused": color = "#C4562B"; break;
-				case "stopped": color = "#444444"; break;
-			}
-
-			return { data: this.dataToSeriesConverter(rawData), color: color };
-		}
-	}),
-
-	inputChart: Ember.computed('pEngine.connected', 'pEngine.rawData.inputThread.state', 'pEngine.rawData.inputThread.frames.[]',
-	{
-		get() 
-		{
-			const rawData = this.get('pEngine.rawData.inputThread.frames');
-			var state = this.get("pEngine.connected") ? this.get("pEngine.rawData.inputThread.state") : "stopped";
-			var color = "";
-
-			switch (state)
-			{
-				case "running": color = "#5CC970"; break;
-				case "paused": color = "#C4562B"; break;
-				case "stopped": color = "#444444"; break;
-			}
-
-			return { data: this.dataToSeriesConverter(rawData), color: color };
-		}
 	})
 
 });
