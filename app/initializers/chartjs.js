@@ -66,6 +66,7 @@ export function initialize()
 			y: 0
 		};
 	};
+
 }
 
 export default {

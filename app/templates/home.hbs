@@ -85,9 +85,33 @@
 		{{! ----------------------------------------------------------------------- }}
 		<div class="col-sm-4 content">
 
-			{{indicators/indicator-base}}
+			<div class="indicators">
+				{{
+					indicators/number-indicator
+					title="Dependencies"
+					description="Frame dependency"
+					value=124
+				}}
 
-			<br><br>
+				{{
+					indicators/percentile-indicator
+					title="Frame drop"
+					measure="frames"
+					value=1204
+					maximum=7000
+					minimum=0
+				}}
+
+				{{
+					indicators/index-indicator
+					title="Graphics sync"
+					firstValue=33.2
+					secondValue=11.3
+				}}
+			</div>
+
+
+			<br>
 
 			{{! Graphics time chart }}
 			<div class="title">

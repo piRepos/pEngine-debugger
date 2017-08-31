@@ -1,7 +1,7 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('indicators/indicator-base', 'Integration | Component | indicators/indicator base', {
+moduleForComponent('indicators/index-indicator', 'Integration | Component | indicators/index indicator', {
   integration: true
 });
 
@@ -10,15 +10,15 @@ test('it renders', function(assert) {
   // Set any properties with this.set('myProperty', 'value');
   // Handle any actions with this.on('myAction', function(val) { ... });
 
-  this.render(hbs`{{indicators/indicator-base}}`);
+  this.render(hbs`{{indicators/index-indicator}}`);
 
   assert.equal(this.$().text().trim(), '');
 
   // Template block usage:
   this.render(hbs`
-    {{#indicators/indicator-base}}
+    {{#indicators/index-indicator}}
       template block text
-    {{/indicators/indicator-base}}
+    {{/indicators/index-indicator}}
   `);
 
   assert.equal(this.$().text().trim(), 'template block text');
