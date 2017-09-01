@@ -1,0 +1,76 @@
+.vis-timeline
+{
+	border: none !important;
+	border-top: 1px solid #AAA !important;
+
+	.vis-box
+	{
+		height: 25px;
+		border: none !important;
+		border-left: 3px solid #659157 !important;
+		border-radius: 0px !important;
+		background: #A1C084;
+		color: #354C2D;
+		padding: 0px;
+
+		.vis-item-content
+		{
+			padding-top: 1px;
+		}
+	}
+
+	.vis-item
+	{
+		border: 1px solid #A1C084;
+	}
+
+	.vis-item.warning
+	{
+		border-color: #EADC62;
+		background: #EADC62;
+		color: #7C7534;
+	}
+
+	.vis-box.warning
+	{
+		border-left: 3px solid #ADA348 !important;
+	}
+
+	.vis-item.error
+	{
+		border-color: #F26373;
+		background: #F26373;
+		color: #773139;
+	}
+
+	.vis-box.error
+	{
+		border-left: 3px solid #BC4D5A !important;
+	}
+
+	.title
+	{
+		font-weight: bolder;
+		margin: 0px !important;
+		text-align: left;
+		i
+		{
+			margin-right: 5px;
+		}
+	}
+
+	.description
+	{
+		display: none;
+	}
+
+	.vis-box:hover
+	{
+		height: auto;
+
+		.description
+		{
+			display: block;
+		}
+	}
+}

@@ -6,37 +6,82 @@ export default Ember.Component.extend(
 {
 
 	tagName: 'div',
+	classNames: ["event-chart"],
+
+	height: Ember.computed.alias('options.height'),
+	width: Ember.computed.alias('options.width'),
+
+	startRange: Ember.computed.alias('options.min'),
+	endRange: Ember.computed.alias('options.max'),
 
 	options:
 	{
+		//height: '150px',
+		width: '100%',
 
+		min: new Date(2010,9,23,12,0,0),
+		max: new Date(2010,9,23,12,1,0)
 	},
 
-	chartData:
+	data:
+	[
+		{ start: 2.1, title: "pEngine started." },
+		{ start: 2.2, title: "Loading audio device." },
+		{ start: 2.7, title: "Loading renderer module." },
+		{ start: 3.1, title: "Starting Wave Dash." },
+		{ start: 3.2, title: "Element loading.", description: "The element #24212 takes too much time to load.", type: "warning" },
+		{ start: 3.3, title: "Element loading.", description: "The element #24212 takes too much time to load.", type: "warning" },
+		{ start: 3.4, title: "Element loading.", description: "The element #24212 takes too much time to load.", type: "warning" },
+		{ start: 5.2, title: "Send network request.", description: "Connection started to 192.168.0.1." },
+		{ start: 7.2, title: "Network request failed.", description: "A request to 192.168.0.1 is aborted due to timeout.", type: "error" }
+	],
+
+	chartData: Ember.computed('data', function () 
 	{
-		labels: ["Errors"],
-		datasets:
-		[
-			{ time: 2.1, description: "Sei troppo gay! ahahah." }
-		]
-	},
+		var data = this.get("data");
+		var start = this.get("startRange");
+
+		var items = [];
+
+		for (var i = 0; i < data.length; i++) 
+		{
+			var content = "<div class='title'>";
+
+			switch (data[i].type)
+			{
+				case 'warning': content += '<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>'; break;
+				case 'error': content += '<i class="fa fa-times" aria-hidden="true"></i>'; break;
+				default: content += '<i class="fa fa-info" aria-hidden="true"></i>'; break;
+			}
+
+			content += data[i].title + "</div>";
+
+			if (data[i].description != undefined)
+				content += "<span class='description'>" + data[i].description + "</span>";
+
+			var date = this.get("startRange");
+			date = new Date(date.getTime() + data[i].start * 1000);
+
+			items.push(
+			{
+				id: i,
+				content: content,
+				start: date,
+				className: data[i].type
+			});
+		}
+
+		console.log(items);
+
+		return new vis.DataSet(items);
+	}),
 
 	didInsertElement()
 	{
 		this._super(...arguments);
 
-		var items = new vis.DataSet(
-		[
-			{id: 1, content: 'item 1', start: '2013-04-20'},
-			{id: 2, content: 'item 2', start: '2013-04-14'},
-			{id: 3, content: 'item 3', start: '2013-04-18'},
-			{id: 4, content: 'item 4', start: '2013-04-16', end: '2013-04-19'},
-			{id: 5, content: 'item 5', start: '2013-04-25'},
-			{id: 6, content: 'item 6', start: '2013-04-27'}
-		]);
-
 		var ctx = document.getElementById(this.elementId);
-		var chart = new vis.Timeline(ctx, items, { height: '80px'});
+		var chart = new vis.Timeline(ctx, this.get("chartData"), this.get('options'));
 
 		this.set("handler", chart);
 	},
