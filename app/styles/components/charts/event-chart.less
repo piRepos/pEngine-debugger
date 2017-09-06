@@ -1,51 +1,129 @@
 .vis-timeline
 {
+	// - Timeline borders
 	border: none !important;
 	border-top: 1px solid #AAA !important;
 
+	.vis-group
+	{
+		// - Box size
+		height: 26px !important;
+	}
+
+	.vis-content
+	{
+		// - Log size
+		height: 26px;
+
+		// - Log positioning reset
+		top: 0px !important;
+	}
+
 	.vis-box
 	{
-		height: 25px;
+		// - Log box size
+		height: 26px;
+		width: auto;
+
+		// - Cursor
+		cursor: pointer;
+
+		// - Border
 		border: none !important;
-		border-left: 3px solid #659157 !important;
+		border-left: 5px solid #659157 !important;
 		border-radius: 0px !important;
+
+		// - Default color
 		background: #A1C084;
 		color: #354C2D;
+
+		// - Positioning
 		padding: 0px;
+		padding-top: 2px;
+		top: 0px !important;
+
+		// - Overflow
+		overflow: hidden;
+		max-width: 0;
+
+		// - Animation
+		transition: max-width 0.2s ease-out;
+
+		&:hover
+		{
+			// - On hover animate expand
+			transition: max-width 0.2s ease-in;
+			max-width: 200px;
+		}
+
+		&.vis-selected
+		{
+			// - Change color on select
+			background: #46663D;
+			color: #A1C084;
+
+			// - Stay open
+			max-width: 200px;
+
+			// - Cursor
+			cursor: default;
+		}
 
 		.vis-item-content
 		{
-			padding-top: 1px;
+			// - Reset content positioning
+			padding-top: 0px;
 		}
-	}
 
-	.vis-item
-	{
-		border: 1px solid #A1C084;
-	}
-
-	.vis-item.warning
-	{
-		border-color: #EADC62;
-		background: #EADC62;
-		color: #7C7534;
+		i
+		{
+			// - Icon spacing
+			text-align: center;
+			width: 16px;
+		}
 	}
 
 	.vis-box.warning
 	{
-		border-left: 3px solid #ADA348 !important;
-	}
+		// - Warning colors
+		border-color: #EADC62;
+		background: #EADC62;
+		color: #7C7534;
 
-	.vis-item.error
-	{
-		border-color: #F26373;
-		background: #F26373;
-		color: #773139;
+		// - Warning border
+		border-left: 5px solid #ADA348 !important;
+
+		&.vis-selected
+		{
+			// - Change color on select
+			background: #6B642C;
+			color: #EADC62;
+		}
 	}
 
 	.vis-box.error
 	{
-		border-left: 3px solid #BC4D5A !important;
+		// - Error colors
+		border-color: #F26373;
+		background: #F26373;
+		color: #773139;
+
+		// - Error border
+		border-left: 5px solid #BC4D5A !important;
+
+		&.vis-selected
+		{
+			// - Change color on select
+			background: #7F343D;
+			color: #F26373;
+		}
+	}
+
+
+	// - Hide lines and dots
+	.vis-dot, .vis-line
+	{
+		display: none;
 	}
 
 	.title
@@ -53,24 +131,10 @@
 		font-weight: bolder;
 		margin: 0px !important;
 		text-align: left;
+
 		i
 		{
 			margin-right: 5px;
-		}
-	}
-
-	.description
-	{
-		display: none;
-	}
-
-	.vis-box:hover
-	{
-		height: auto;
-
-		.description
-		{
-			display: block;
 		}
 	}
 }

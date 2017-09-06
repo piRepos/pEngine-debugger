@@ -8,35 +8,121 @@ export default Ember.Component.extend(
 	tagName: 'div',
 	classNames: ["event-chart"],
 
-	height: Ember.computed.alias('options.height'),
-	width: Ember.computed.alias('options.width'),
+	/**
+	 * Start time in the visible range.
+	 * @type {Struct/String}
+	 */
+	startRange: null,
 
-	startRange: Ember.computed.alias('options.min'),
-	endRange: Ember.computed.alias('options.max'),
+	/**
+	 * End time in the visible range.
+	 * @type {Struct/String}
+	 */
+	endRange: null,
 
+	/**
+	 * Current selected item.
+	 * @type {Struct}
+	 */
+	selectedElement: null,
+
+	/**
+	 * Chart data.
+	 * @type {Array}
+	 */
+	data: [],
+
+	/**
+	 * Chart options.
+	 * @type {Struct}
+	 */
 	options:
 	{
 		//height: '150px',
 		width: '100%',
+		height: '86px',
+		align: 'left',
+		verticalScroll: false,
+		stack: false,
 
 		min: new Date(2010,9,23,12,0,0),
 		max: new Date(2010,9,23,12,1,0)
 	},
 
-	data:
-	[
-		{ start: 2.1, title: "pEngine started." },
-		{ start: 2.2, title: "Loading audio device." },
-		{ start: 2.7, title: "Loading renderer module." },
-		{ start: 3.1, title: "Starting Wave Dash." },
-		{ start: 3.2, title: "Element loading.", description: "The element #24212 takes too much time to load.", type: "warning" },
-		{ start: 3.3, title: "Element loading.", description: "The element #24212 takes too much time to load.", type: "warning" },
-		{ start: 3.4, title: "Element loading.", description: "The element #24212 takes too much time to load.", type: "warning" },
-		{ start: 5.2, title: "Send network request.", description: "Connection started to 192.168.0.1." },
-		{ start: 7.2, title: "Network request failed.", description: "A request to 192.168.0.1 is aborted due to timeout.", type: "error" }
-	],
+	didInsertElement()
+	{
+		this._super(...arguments);
 
-	chartData: Ember.computed('data', function () 
+		var min = new Date();
+		var max = new Date(); 
+		min.setTime(this.get("startRange"));
+		max.setTime(this.get("endRange"));
+		this.set("options.max", max);
+		this.set("options.min", min);
+
+		var ctx = document.getElementById(this.elementId);
+		var chart = new vis.Timeline(ctx, this.get("chartData"), this.get('options'));
+
+		var that = this;
+
+		// - Add event listener
+		chart.on('select', function (e) 
+		{
+			if (e.items.length > 0)
+				that.set("selectedElement", e.items[0]);
+		});
+
+		this.set("handler", chart);
+	},
+
+	willDestroyElement()
+	{
+		this._super(...arguments);
+
+		var chart = this.get("handler");
+
+		// - Add event listener
+		chart.off('select', this.onSelect);
+
+		chart.destroy();
+	},
+
+	didUpdateAttrs()
+	{
+		this._super(...arguments);
+
+		var chart = this.get("handler");
+
+		if (chart == null || chart == undefined)
+			return;
+
+		var window = chart.getWindow();
+		var endCursor = window.end.getTime() == this.get("options.max").getTime();
+
+		var min = new Date();
+		var max = new Date(); 
+		min.setTime(this.get("startRange"));
+		max.setTime(this.get("endRange"));
+		this.set("options.max", max);
+		this.set("options.min", min);
+
+		chart.setOptions(this.get("options"));
+
+		var start = new Date();
+		start.setTime(max.getTime());
+		start.setSeconds(start.getSeconds() - 20);
+
+		console.log(min > start ? min : start + "|" +  max);
+
+		if (endCursor)
+		{
+			if (min > start)
+				chart.setWindow(start, max);
+			else chart.moveTo(max);
+		}
+	},
+
+	chartData: Ember.observer('data.[]', function () 
 	{
 		var data = this.get("data");
 		var start = this.get("startRange");
@@ -56,34 +142,23 @@ export default Ember.Component.extend(
 
 			content += data[i].title + "</div>";
 
-			if (data[i].description != undefined)
-				content += "<span class='description'>" + data[i].description + "</span>";
-
-			var date = this.get("startRange");
-			date = new Date(date.getTime() + data[i].start * 1000);
+			var date = new Date();
+			date.setTime(this.get("startRange"));
+			date.setMilliseconds(date.getMilliseconds() + data[i].start * 1000);
 
 			items.push(
 			{
-				id: i,
+				id: data.length - i,
 				content: content,
 				start: date,
-				className: data[i].type
+				className: data[i].type,
+				style: "z-index: " + (data.length - i)
 			});
 		}
 
 		console.log(items);
-
-		return new vis.DataSet(items);
-	}),
-
-	didInsertElement()
-	{
-		this._super(...arguments);
-
-		var ctx = document.getElementById(this.elementId);
-		var chart = new vis.Timeline(ctx, this.get("chartData"), this.get('options'));
-
-		this.set("handler", chart);
-	},
+		var chart = this.get("handler"); 
+		chart.setItems(new vis.DataSet(items));
+	})
 
 });

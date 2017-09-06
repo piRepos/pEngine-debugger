@@ -4,8 +4,8 @@ export default Ember.Service.extend(
 {
 
 	// - Data update
-	refreshRate: 0.1,
-	cacheSize: 20,
+	refreshRate: 0.4,
+	cacheSize: 60,
 	dataLenght: Ember.computed("refreshRate", "cacheSize", function()
 	{
 		return this.get("cacheSize") / this.get("refreshRate");
@@ -22,64 +22,76 @@ export default Ember.Service.extend(
 
 	rawData:
 	{
-			runningGame: "WaveDash",
-			engineVersion: "1.0.5",
-			runningMode: "Debug",
-
-			system:
+		runningGame: "WaveDash",
+		engineVersion: "1.0.5",
+		runningMode: "Debug",
+		connectionTime: null,
+		currentTime: null,
+		system:
+		{
+			OS: "Windows 10",
+			motherBoard: "Asus P8P67 M-PRO rev",
+			CPU: "intel i7 2600k 4.1ghz",
+			RAM: "16gb 2600mhz",
+			videoCard:
 			{
-				OS: "Windows 10",
-				motherBoard: "Asus P8P67 M-PRO rev",
-				CPU: "intel i7 2600k 4.1ghz",
-				RAM: "16gb 2600mhz",
-
-				videoCard:
-				{
-					name: "Nvidia GTX970 XFX",
-					vendor: "Nvidia",
-					openGLVersion: "4.2 Core",
-					monitors: 2
-				},
-
-				threads:
-				[
-					{ name: "GraphicsThread", PID: 12314 },
-					{ name: "InputThread", PID: 12314 },
-					{ name: "PhysicsThread", PID: 12314 }
-				]
+				name: "Nvidia GTX970 XFX",
+				vendor: "Nvidia",
+				openGLVersion: "4.2 Core",
+				monitors: 2
 			},
-
-			graphicsThread:
-			{
-				state: "running",
-
-				frames: []
-			},
-
-			physicsThread:
-			{
-				state: "running",
-
-				frames: []
-			},
-
-			inputThread:
-			{
-				state: "running",
-
-				frames: []
-			}
+			threads:
+			[
+				{ name: "GraphicsThread", PID: 12314 },
+				{ name: "InputThread", PID: 12314 },
+				{ name: "PhysicsThread", PID: 12314 }
+			]
 		},
+		graphicsThread:
+		{
+			state: "running",
+			frames: []
+		},
+		physicsThread:
+		{
+			state: "running",
+			frames: []
+		},
+		inputThread:
+		{
+			state: "running",
+			frames: []
+		},
+		logs:
+		[
+		]
+	},
 
 
 	init()
 	{
 		var that = this;
 
+		this.set("rawData.connectionTime", (new Date(0,0,0,0,0)).getTime());
+		this.set("rawData.currentTime", (new Date(0,0,0,0,0)).getTime());
+
 		this.resetData();
 
 		function updater() 
 		{
+			var currTime = new Date();
+			currTime.setTime(that.get("rawData.currentTime"));
+			currTime.setMilliseconds(currTime.getMilliseconds() + that.get("refreshRate") * 1000);
+			that.set("rawData.currentTime", currTime.getTime());
+
+			var logs = that.get("rawData.logs");
+
+			logs.addObject(
+			{
+				start: currTime.getSeconds(),
+				title: "Bel cane"
+			});
+			
 			var data = that.get("rawData");
 			var dataLength = that.get("dataLenght");
 
